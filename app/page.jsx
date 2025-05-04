@@ -13,9 +13,13 @@ import { Faq } from "@/components/Faq";
 import { Cta } from "@/components/Cta";
 import { Footer } from '@/components/Footer'
 
+
+
 const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
 const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
 const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
+const Globe = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Globe), { ssr: false })
+
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -38,13 +42,19 @@ export default function Page() {
     <>
       <Container>
         <Hero>
-          <View className='flex h-96 w-full flex-col items-center justify-center'>
+          <View orbit  className='flex  h-full w-full flex-col  items-center justify-center'>
             <Suspense fallback={null}>
-              <Logo route='/blob' scale={0.6} position={[0, 0, 0]} />
+              <Globe  />
               <Common />
             </Suspense>
           </View>
         </Hero>
+
+        <SectionTitle
+          preTitle="Benefits "
+          title="Learn how to fullfil your needs"
+        />
+          
 
         <Benefits data={benefitOne}>
           <View orbit className=' h-full sm:h-48 sm:w-full'>

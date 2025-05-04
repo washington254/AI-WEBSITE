@@ -1,11 +1,15 @@
 'use client'
 
 import { useGLTF } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useEffect, useRef, useState } from "react";
 import { Line, useCursor, MeshDistortMaterial } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
+
+import ThreeGlobe from "three-globe";
+import countries from "../files/globe-data-min.json";
+import travelHistory from "../files/my-flights.json";
 
 export const Blob = ({ route = '/', ...props }) => {
   const router = useRouter()
@@ -66,3 +70,73 @@ export function Dog(props) {
 
   return <primitive object={scene} {...props} />
 }
+
+export function Globe(props) {
+  const globeRef = useRef();
+  const { camera, size, scene } = useThree();
+
+  const globe = useMemo(() => {
+    const g = new ThreeGlobe({
+      waitForGlobeReady: true,
+      animateIn: true,
+      animateInDuration: 3000,
+    })
+      .hexPolygonsData(countries.features)
+      .hexPolygonResolution(3)
+      .hexPolygonMargin(0.7)
+      .showAtmosphere(true)
+      .atmosphereColor("#3a228a")
+      .atmosphereAltitude(0.25)
+      .hexPolygonColor((e) =>
+        ["KGZ", "KOR", "THA", "RUS", "UZB", "IDN", "KAZ", "MYS"].includes(
+          e.properties.ISO_A3
+        )
+          ? "rgba(255,255,255, 1)"
+          : "rgba(255,255,255, 0.7)"
+      );
+
+    // Configure globe material
+    const globeMaterial = g.globeMaterial();
+    globeMaterial.color = new THREE.Color(0x3a228a);
+    globeMaterial.emissive = new THREE.Color(0x220038);
+    globeMaterial.emissiveIntensity = 0.3;
+    globeMaterial.shininess = 0.8;
+    globeMaterial.opacity = 0.4;
+    globeMaterial.transparent = true;
+
+    g.rotateY(-Math.PI * (5 / 9));
+    g.rotateZ(-Math.PI / 6);
+
+    return g;
+  }, []);
+
+  // Set up arcs after initial render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      globe.arcsData(travelHistory.flights)
+        .arcColor((e) => (e.status ? "#00ff00" : "#ff0000"))
+        .arcAltitude((e) => e.arcAlt)
+        .arcStroke((e) => (e.status ? 0.5 : 0.3))
+        .arcDashLength(0.9)
+        .arcDashGap(4)
+        .arcDashAnimateTime(1000)
+        .arcsTransitionDuration(1000)
+        .arcDashInitialGap((e) => e.order * 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [globe]);
+
+  useEffect(() => {
+    camera.position.set(0, 0, size.height / 2 + 25);
+    camera.aspect = size.width / size.height;
+    camera.updateProjectionMatrix();
+  }, [globe, size]);
+
+  useFrame(() => {
+    globe.rotation.y -= 0.01;
+  });
+
+  return <primitive object={globe} {...props} ref={globeRef} />
+}
+
