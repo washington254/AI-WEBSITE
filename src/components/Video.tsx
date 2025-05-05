@@ -5,15 +5,15 @@ import { Container } from "@/components/Container";
 interface VideoProps {
   videoId: string;
 }
-
+{/* <iframe width="896" height="500" src="https://www.youtube.com/embed/iUtnZpzkbG8" title="No Copyright Drone Shots | Royalty free drone shots | free stock videos | Drone footage nature shots" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
 export function Video({ videoId }: Readonly<VideoProps>) {
   const [playVideo, setPlayVideo] = useState(false);
 
   if (!videoId) return null;
 
   return (
-    <Container>
-      <div className="relative w-full h-[500px] max-w-4xl mx-auto overflow-hidden lg:mb-20 rounded-2xl bg-indigo-300 cursor-pointer bg-gradient-to-tr from-purple-400 to-indigo-700">
+    <Container className="mb-20">
+      <div className="relative w-full h-[500px] max-w-4xl mx-auto overflow-hidden lg:mb-20 rounded-2xl  cursor-pointer bg-gradient-to-tr from-purple-400 to-indigo-700">
         {!playVideo && (
           <button
             onClick={() => setPlayVideo(!playVideo)}
@@ -39,7 +39,7 @@ export function Video({ videoId }: Readonly<VideoProps>) {
             src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=0&autoplay=1`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            className="w-full h-full aspect-video"
+            className="w-full  h-full aspect-video"
           ></iframe>
         )}
       </div>

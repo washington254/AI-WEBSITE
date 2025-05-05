@@ -6,7 +6,6 @@ import * as THREE from 'three'
 import React, { useMemo, useEffect, useRef, useState } from "react";
 import { Line, useCursor, MeshDistortMaterial } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
-
 import ThreeGlobe from "three-globe";
 import countries from "../files/globe-data-min.json";
 import travelHistory from "../files/my-flights.json";
@@ -138,5 +137,53 @@ export function Globe(props) {
   });
 
   return <primitive object={globe} {...props} ref={globeRef} />
+}
+
+
+
+export function Box1(props) {
+  const meshRef = useRef()
+  
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01
+      meshRef.current.rotation.x += 0.005
+    }
+  })
+
+  return (
+    <mesh
+      {...props}
+      ref={meshRef}
+      rotation={[0, Math.PI / 4, Math.PI / 8]}
+      position={[0, 0, 0.5]}
+    >
+      <boxGeometry args={[2, 2, 2]} />
+      <meshNormalMaterial />
+    </mesh>
+  )
+}
+
+export function TorusKnot(props) {
+  const meshRef = useRef()
+  
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01
+      meshRef.current.rotation.x += 0.005
+    }
+  })
+
+  return (
+    <mesh
+      {...props}
+      ref={meshRef}
+      rotation={[0, Math.PI / 4, Math.PI / 8]}
+      position={[0, 0, 0.5]}
+    >
+      <torusKnotGeometry args={[1, 0.4, 90, 20]} />
+      <meshNormalMaterial />
+    </mesh>
+  )
 }
 

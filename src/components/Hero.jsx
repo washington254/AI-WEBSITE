@@ -26,17 +26,17 @@ export const Hero = ({ children }) => {
             <div className="h-[1px] w-full my-6 rounded-full bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]"></div>
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
-            <a
-                  href="#"
-                  rel="noopener"
-                  className="inline-block p-[2px] rounded-full border bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]"
-                >
-                  <span className="block px-8 py-4 text-lg font-medium rounded-full 
-                                  text-black bg-white 
-                                  dark:text-white dark:bg-black">
-                    Get Started
-                  </span>
-                </a>
+                  <a
+                        href="#"
+                        rel="noopener"
+                        className="inline-block p-[2px] rounded-full border bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]"
+                      >
+                        <span className="block px-8 py-4 text-lg font-medium rounded-full 
+                                        text-black bg-white 
+                                        dark:text-white dark:bg-black">
+                          Get Started
+                        </span>
+                      </a>
 
             
             </div>
@@ -59,6 +59,7 @@ export const Hero = ({ children }) => {
             </div>
         
           </div>
+          <h3 className="text-1xl my-2 text-center text-gray-700 dark:text-white">Trusted by the world’s most ambitious teams.</h3>
         </div>
       </Container>
     </>

@@ -19,7 +19,8 @@ const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => 
 const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
 const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
 const Globe = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Globe), { ssr: false })
-
+const Box1 = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Box1), { ssr: false })
+const TorusKnot = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.TorusKnot), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -50,50 +51,38 @@ export default function Page() {
           </View>
         </Hero>
 
-        <SectionTitle
-          preTitle="Benefits "
-          title="Learn how to fullfil your needs"
-        />
-          
 
         <Benefits data={benefitOne}>
-          <View orbit className=' h-full sm:h-48 sm:w-full'>
+          <View className=' h-full sm:h-48 sm:w-full'>
             <Suspense fallback={null}>
-              <Duck scale={2} position={[0, -1.6, 0]} />
+              <Box1 />
               <Common />
             </Suspense>
           </View>
         </Benefits>
 
-        <Benefits imgPos="right" data={benefitTwo} />
+        <Benefits imgPos="right" data={benefitTwo}>
+          <View className=' h-full sm:h-48 sm:w-full'>
+            <Suspense fallback={null}>
+              <TorusKnot />
+              <Common />
+            </Suspense>
+          </View>
+        </Benefits>
 
-        <SectionTitle
-          preTitle="Watch a video"
-          title="Learn how to fullfil your needs"
-        >
-          This section is to highlight a promo or demo video of your product.
-          Analysts says a landing page with video has 3% more conversion rate. So,
-          don&apos;t forget to add one. Just like this.
-        </SectionTitle>
-
-        <Video videoId="fZ0D0cnR88E" />
-
+        <Video videoId="iUtnZpzkbG8" />
 
         <SectionTitle
           preTitle="Testimonials"
-          title="Here's what our customers said"
-        >
-          Testimonials is a great way to increase the brand trust and awareness.
-          Use this section to highlight your popular customers.
-        </SectionTitle>
+          title="Here's what our customers say about DOML"
+       />
+       
 
         <Testimonials />
 
 
-        <SectionTitle preTitle="FAQ" title="Frequently Asked Questions">
-          Answer your customers possible questions here, it will increase the
-          conversion rate as well as support or chat requests.
-        </SectionTitle>
+        <SectionTitle preTitle="FAQ" title="Frequently Asked Questions"/>
+        
 
         <Faq />
 

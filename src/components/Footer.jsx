@@ -7,48 +7,25 @@ export function Footer() {
   const navigation = ["Product", "Features", "Pricing", "Company", "Blog"];
   const legal = ["Terms", "Privacy", "Legal"];
   return (
-    <div className="relative">
+    <div className="relative lg:mb-40 lg:pb-30">
       <Container>
         <div className="grid max-w-screen-xl grid-cols-1 gap-10 pt-10 mx-auto mt-5 border-t border-gray-100 dark:border-trueGray-700 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div>
-              {" "}
-              <Link
-                href="/"
-                className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100"
-              >
-                <Image
-                  src="/img/logo.svg"
-                  alt="N"
-                  width="32"
-                  height="32"
-                  className="w-8"
-                />
-                <span>Nextly</span>
-              </Link>
-            </div>
+            <Link href="/">
+          <span className="flex items-center space-x-2 text-4xl font-medium text-indigo-500 dark:text-gray-100">
+          <span class="text-transparent bg-clip-text bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]">
+              DOML
+            </span>
+          </span>
+        </Link>
 
+            </div>
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
-              Nextly is a free landing page & marketing website template for
-              startups and indie projects. Its built with Next.js & TailwindCSS.
-              And its completely open-source.
+              DOML is an AI-powered digital media agency helping businesses grow through intelligent insights and automated marketing strategies. Built with cutting-edge tech to deliver real-time, data-driven results.
             </div>
 
-            <div className="mt-5">
-              <a
-                href="https://vercel.com/?utm_source=web3templates&utm_campaign=oss"
-                target="_blank"
-                rel="noopener"
-                className="relative block w-44"
-              >
-                <Image
-                  src="/img/vercel.svg"
-                  alt="Powered by Vercel"
-                  width="212"
-                  height="44"
-                />
-              </a>
-            </div>
+      
           </div>
 
           <div>
@@ -81,7 +58,7 @@ export function Footer() {
             <div>Follow us</div>
             <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
               <a
-                href="https://twitter.com/web3templates"
+                href="#"
                 target="_blank"
                 rel="noopener"
               >
@@ -89,7 +66,7 @@ export function Footer() {
                 <Twitter />
               </a>
               <a
-                href="https://facebook.com/web3templates"
+                href="#"
                 target="_blank"
                 rel="noopener"
               >
@@ -97,14 +74,14 @@ export function Footer() {
                 <Facebook />
               </a>
               <a
-                href="https://instagram.com/web3templates"
+                href="#"
                 target="_blank"
                 rel="noopener"
               >
                 <span className="sr-only">Instagram</span>
                 <Instagram />
               </a>
-              <a href="https://linkedin.com/" target="_blank" rel="noopener">
+              <a href="#" target="_blank" rel="noopener">
                 <span className="sr-only">Linkedin</span>
                 <Linkedin />
               </a>
@@ -113,10 +90,12 @@ export function Footer() {
         </div>
 
         <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
-          Copyright © {new Date().getFullYear()}. Made with ♥ by{" "}
+          Copyright © {new Date().getFullYear()}. Made from{" "}
           <a href="https://web3templates.com/" target="_blank" rel="noopener">
             Web3Templates.
           </a>{" "}
+              NextJS boilerplate code,
+          {" "}
           Illustrations from{" "}
           <a href="https://www.glazestock.com/" target="_blank" rel="noopener ">
             Glazestock

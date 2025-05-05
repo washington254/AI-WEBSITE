@@ -20,6 +20,11 @@ export const Benefits = (props) => {
           }`}>
         <div>
           <div className="flex flex-col w-full mt-4">
+            <h1 className="text-5xl font-bold leading-snug tracking-tight">
+            <span class="text-transparent bg-clip-text bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]">
+              AI Marketing.
+            </span>
+            </h1>
             <h3 className="max-w-2xl mt-3 text-3xl font-bold leading-snug tracking-tight text-gray-800 lg:leading-tight lg:text-4xl dark:text-white">
               {data.title}
             </h3>
@@ -27,14 +32,21 @@ export const Benefits = (props) => {
             <p className="max-w-2xl py-4 text-lg leading-normal text-gray-500 lg:text-xl xl:text-xl dark:text-gray-300">
               {data.desc}
             </p>
-          </div>
+            <div className="h-[1px] w-full my-6 rounded-full bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]"></div>
+            <div className={`flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row ${data.imgPos === "right" ? "lg:justify-end" : ""}`}>
+                  <a
+                        href="#"
+                        rel="noopener"
+                        className="inline-block p-[2px] rounded-full border bg-[linear-gradient(75deg,_rgba(7,240,255,1)_1%,_rgba(82,0,255,1)_48%,_rgba(255,45,247,1)_100%)]"
+                      >
+                        <span className="block px-8 py-4 text-lg font-medium rounded-full 
+                                        text-black bg-white 
+                                        dark:text-white dark:bg-black">
+                          Learn More
+                        </span>
+                      </a>
 
-          <div className="w-full mt-5">
-            {data.bullets.map((item, index) => (
-              <Benefit key={index} title={item.title} icon={item.icon}>
-                {item.desc}
-              </Benefit>
-            ))}
+            </div>
           </div>
         </div>
       </div>

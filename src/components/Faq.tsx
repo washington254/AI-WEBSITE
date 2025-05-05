@@ -7,7 +7,7 @@ import { ChevronUpIcon } from '@heroicons/react/24/solid'
 export const Faq = () => {
   return (
     <Container className='!p-0'>
-      <div className='w-full max-w-2xl p-2 mx-auto rounded-2xl '>
+      <div className='w-full max-w-2xl p-2 mx-auto mt-3 rounded-2xl '>
         {faqdata.map((item, index) => (
           <div key={item.question} className='mb-5 '>
             <Disclosure>
@@ -29,24 +29,33 @@ export const Faq = () => {
     </Container>
   )
 }
-
 const faqdata = [
   {
-    question: 'Is this template completely free to use?',
-    answer: 'Yes, this template is completely free to use.',
+    question: 'What is DOML?',
+    answer: 'DOML is a digital media agency powered by AI that delivers real-time, data-driven insights to help businesses understand and engage their audience more effectively.',
   },
   {
-    question: 'Can I use it in a commercial project?',
-    answer: 'Yes, this you can.',
+    question: 'How does DOML improve my marketing strategy?',
+    answer: 'DOML uses AI to analyze customer data, automate decision-making, and provide strategic insights, so you can run smarter campaigns and boost ROI.',
   },
   {
-    question: 'What is your refund policy? ',
-    answer:
-      "If you're unhappy with your purchase for any reason, email us within 90 days and we'll refund you in full, no questions asked.",
+    question: 'Is DOML suitable for startups and small businesses?',
+    answer: "Yes! DOML is built to support businesses of all sizes. Whether you're a startup or an established brand, our tools scale to meet your needs.",
   },
   {
-    question: 'Do you offer technical support? ',
-    answer:
-      "No, we don't offer technical support for free downloads. Please purchase a support plan to get 6 months of support.",
+    question: 'Do I need technical skills to use DOML?',
+    answer: 'No technical background is required. DOML’s intuitive dashboard and guided workflows make it easy for marketers to operate without writing a single line of code.',
   },
-]
+  {
+    question: 'How does DOML protect my data?',
+    answer: 'We follow strict data privacy and security protocols, ensuring your business and customer information stays confidential and protected.',
+  },
+  {
+    question: 'Can DOML integrate with tools I already use?',
+    answer: 'Absolutely. DOML seamlessly connects with popular platforms like Google Analytics, Mailchimp, HubSpot, and more.',
+  },
+  {
+    question: 'Is there a trial or demo version of DOML?',
+    answer: 'Yes, we offer a 14-day free trial with full access to DOML’s features so you can experience its power firsthand.',
+  },
+];
