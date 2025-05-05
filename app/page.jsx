@@ -21,6 +21,9 @@ const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => 
 const Globe = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Globe), { ssr: false })
 const Box1 = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Box1), { ssr: false })
 const TorusKnot = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.TorusKnot), { ssr: false })
+const Box2 = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Box2), { ssr: false })
+
+
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
@@ -55,7 +58,7 @@ export default function Page() {
         <Benefits data={benefitOne}>
           <View className=' h-full sm:h-48 sm:w-full'>
             <Suspense fallback={null}>
-              <Box1 />
+              <Box2 />
               <Common />
             </Suspense>
           </View>

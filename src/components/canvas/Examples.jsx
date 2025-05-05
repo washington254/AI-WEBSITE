@@ -9,6 +9,9 @@ import { useRouter } from 'next/navigation'
 import ThreeGlobe from "three-globe";
 import countries from "../files/globe-data-min.json";
 import travelHistory from "../files/my-flights.json";
+import CustomShaderMaterial from "three-custom-shader-material"
+import vertexShader from "./shaders/vertex.glsl"
+import fragmentShader from "./shaders/fragment.glsl"
 
 export const Blob = ({ route = '/', ...props }) => {
   const router = useRouter()
@@ -158,11 +161,47 @@ export function Box1(props) {
       rotation={[0, Math.PI / 4, Math.PI / 8]}
       position={[0, 0, 0.5]}
     >
-      <boxGeometry args={[2, 2, 2]} />
+      <boxGeometry args={[1.7, 1.7, 1.7]} />
       <meshNormalMaterial />
     </mesh>
   )
 }
+export function Box2(props) {
+  const meshRef = useRef()
+  const materialRef = useRef()
+
+  useFrame(({ clock }) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01
+      meshRef.current.rotation.x += 0.005
+    }
+    if (!materialRef.current) return
+    materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
+  })
+
+
+  return (
+    <mesh
+        {...props}
+        ref={meshRef}
+        rotation={[0, Math.PI / 4, Math.PI / 8]}
+        position={[0, 0, 0.5]}
+      >
+        <CustomShaderMaterial
+          ref={materialRef}
+          baseMaterial={THREE.MeshStandardMaterial}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={{
+            uTime: { value: 0 },
+          }}
+        />
+        <boxGeometry args={[1.5, 1.5, 1.5]} />
+      </mesh>
+
+  )
+}
+
 
 export function TorusKnot(props) {
   const meshRef = useRef()

@@ -30,6 +30,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "three": "^0.176.0",
+    "three-custom-shader-material": "^6.3.5",
     "three-globe": "^2.42.4",
     "three-stdlib": "^2.28.9",
     "tunnel-rat": "^0.1.2"

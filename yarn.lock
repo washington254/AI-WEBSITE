@@ -5306,6 +5306,11 @@ three-conic-polygon-geometry@2:
     delaunator "5"
     earcut "3"
 
+three-custom-shader-material@^6.3.5:
+  version "6.3.5"
+  resolved "https://registry.yarnpkg.com/three-custom-shader-material/-/three-custom-shader-material-6.3.5.tgz#e1c70f16d3faa9e7231ed4481b401a4514fbbac7"
+  integrity sha512-L9bd3NsN3tJWUUaqDDGe0vFgZdZuLf4JQR87b9IaeZ0FsGLYy2KJhoKw52IrgQ7kS+E3DAGLayYshCCRt/ZUbw==
+
 three-geojson-geometry@2:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/three-geojson-geometry/-/three-geojson-geometry-2.1.1.tgz#17a1534c7a802fdaf29cc088f40f409fe53e0ca6"
