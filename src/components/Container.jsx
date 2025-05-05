@@ -4,7 +4,7 @@ import React from "react";
 export function Container(props) {
   return (
     <div
-      className={`container p-1 mx-auto xl:px-0 ${props.className ? props.className : ""
+      className={`container p-3 mx-auto xl:px-0 ${props.className ? props.className : ""
         }`}>
       {props.children}
     </div>
