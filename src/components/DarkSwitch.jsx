@@ -1,24 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { useStore } from "../templates/hooks/useStore"; 
 
 const ThemeChanger = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const toggleTheme = useStore((state) => state.toggleTheme);
 
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
 
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    toggleTheme(newTheme);
+  };
+
   return (
-    <div className="flex items-center order-last ">
+    <div className="flex items-center order-last">
       {theme === "dark" ? (
         <button
-          onClick={() => setTheme("light")}
-          className="text-gray-300 rounded-full outline-none focus:outline-none ">
+          onClick={() => handleThemeChange("light")}
+          className="text-gray-300 rounded-full outline-none focus:outline-none">
           <span className="sr-only">Light Mode</span>
-
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-5 h-5"
@@ -29,7 +35,7 @@ const ThemeChanger = () => {
         </button>
       ) : (
         <button
-          onClick={() => setTheme("dark")}
+          onClick={() => handleThemeChange("dark")}
           className="text-gray-500 rounded-full outline-none focus:outline-none focus-visible:ring focus-visible:ring-gray-100 focus:ring-opacity-20">
           <span className="sr-only">Dark Mode</span>
           <svg

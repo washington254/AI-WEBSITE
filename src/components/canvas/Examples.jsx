@@ -12,107 +12,41 @@ import travelHistory from "../files/my-flights.json";
 import CustomShaderMaterial from "three-custom-shader-material"
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
+import fragmentShader2 from "./shader2/fragment2.glsl"
+import { useStore } from "../../templates/hooks/useStore"; 
 
-export const Blob = ({ route = '/', ...props }) => {
-  const router = useRouter()
-  const [hovered, hover] = useState(false)
-  useCursor(hovered)
-  return (
-    <mesh
-      onClick={() => router.push(route)}
-      onPointerOver={() => hover(true)}
-      onPointerOut={() => hover(false)}
-      {...props}>
-      <sphereGeometry args={[1, 64, 64]} />
-      <MeshDistortMaterial roughness={0.5} color={hovered ? 'hotpink' : '#1fb2f5'} />
-    </mesh>
-  )
-}
 
-export const Logo = ({ route = '/blob', ...props }) => {
-  const mesh = useRef(null)
-  const router = useRouter()
-
-  const [hovered, hover] = useState(false)
-  const points = useMemo(() => new THREE.EllipseCurve(0, 0, 3, 1.15, 0, 2 * Math.PI, false, 0).getPoints(100), [])
-
-  useCursor(hovered)
-  useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime()
-    mesh.current.rotation.y = Math.sin(t) * (Math.PI / 8)
-    mesh.current.rotation.x = Math.cos(t) * (Math.PI / 8)
-    mesh.current.rotation.z -= delta / 4
-  })
-
-  return (
-    <group ref={mesh} {...props}>
-      {/* @ts-ignore */}
-      <Line worldUnits points={points} color='#1fb2f5' lineWidth={0.15} />
-      {/* @ts-ignore */}
-      <Line worldUnits points={points} color='#1fb2f5' lineWidth={0.15} rotation={[0, 0, 1]} />
-      {/* @ts-ignore */}
-      <Line worldUnits points={points} color='#1fb2f5' lineWidth={0.15} rotation={[0, 0, -1]} />
-      <mesh onClick={() => router.push(route)} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
-        <sphereGeometry args={[0.55, 64, 64]} />
-        <meshPhysicalMaterial roughness={0.5} color={hovered ? 'hotpink' : '#1fb2f5'} />
-      </mesh>
-    </group>
-  )
-}
-
-export function Duck(props) {
-  const { scene } = useGLTF('/duck.glb')
-
-  useFrame((state, delta) => (scene.rotation.y += delta))
-
-  return <primitive object={scene} {...props} />
-}
-export function Dog(props) {
-  const { scene } = useGLTF('/dog.glb')
-
-  return <primitive object={scene} {...props} />
-}
 
 export function Globe(props) {
   const globeRef = useRef();
   const { camera, size, scene } = useThree();
-
+  const currentTheme = useStore((state) => state.theme);
+  const opacityVal = currentTheme === "dark" ? 0.4 : 0.7
+  
   const globe = useMemo(() => {
     const g = new ThreeGlobe({
       waitForGlobeReady: true,
       animateIn: true,
       animateInDuration: 3000,
     })
-      .hexPolygonsData(countries.features)
-      .hexPolygonResolution(3)
-      .hexPolygonMargin(0.7)
-      .showAtmosphere(true)
-      .atmosphereColor("#3a228a")
-      .atmosphereAltitude(0.25)
-      .hexPolygonColor((e) =>
-        ["KGZ", "KOR", "THA", "RUS", "UZB", "IDN", "KAZ", "MYS"].includes(
-          e.properties.ISO_A3
-        )
-          ? "rgba(255,255,255, 1)"
-          : "rgba(255,255,255, 0.7)"
-      );
+    .hexPolygonsData(countries.features)
+    .hexPolygonResolution(3)
+    .hexPolygonMargin(0.7)
+    .showAtmosphere(true)
+    .atmosphereColor("#3a228a")
+    .atmosphereAltitude(0.25);
 
-    // Configure globe material
+
     const globeMaterial = g.globeMaterial();
-    globeMaterial.color = new THREE.Color(0x3a228a);
-    globeMaterial.emissive = new THREE.Color(0x220038);
-    globeMaterial.emissiveIntensity = 0.3;
     globeMaterial.shininess = 0.8;
-    globeMaterial.opacity = 0.4;
+    globeMaterial.opacity = opacityVal;
     globeMaterial.transparent = true;
-
+    
     g.rotateY(-Math.PI * (5 / 9));
     g.rotateZ(-Math.PI / 6);
-
     return g;
   }, []);
 
-  // Set up arcs after initial render
   useEffect(() => {
     const timer = setTimeout(() => {
       globe.arcsData(travelHistory.flights)
@@ -125,58 +59,92 @@ export function Globe(props) {
         .arcsTransitionDuration(1000)
         .arcDashInitialGap((e) => e.order * 1);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, [globe]);
 
+ useEffect(() => {
+    if (!globe) return;
+    
+    const globeMaterial = globe.globeMaterial();
+    const highlightedCountries = ["KGZ", "KOR", "THA", "RUS", "UZB", "IDN", "KAZ", "MYS"];
+    
+    if (currentTheme === "dark") {
+      // Dark theme settings
+      globeMaterial.color = new THREE.Color(0x3a228a);
+      globeMaterial.emissive = new THREE.Color(0x220038);
+      globeMaterial.emissiveIntensity = 0.3;
+      globe.atmosphereColor("#3a228a");
+      
+      // Dark theme hex polygon colors
+      globe.hexPolygonColor((e) =>
+        highlightedCountries.includes(e.properties.ISO_A3)
+          ? "rgba(255,255,255, 1)"
+          : "rgba(255,255,255, 0.7)"
+      );
+    } else {
+      globeMaterial.color = new THREE.Color(0x0000ff); 
+      globe.atmosphereColor("#ffffff"); 
+      
+      globe.hexPolygonColor((e) =>
+        highlightedCountries.includes(e.properties.ISO_A3)
+          ? "rgba(0, 25, 85, 1)"  
+          : "rgba(0, 25, 85, 1)" 
+      );
+      
+    }
+  }, [globe, currentTheme]);
+
   useEffect(() => {
-    camera.position.set(0, 0, size.height / 2 + 25);
+    camera.position.set(0, 4, size.height / 2 + 25);
     camera.aspect = size.width / size.height;
     camera.updateProjectionMatrix();
-  }, [globe, size]);
+  }, [globe, size, camera]);
 
   useFrame(() => {
-    globe.rotation.y -= 0.01;
+    if (globeRef.current) {
+      globeRef.current.rotation.y -= 0.01;
+    }
   });
 
-  return <primitive object={globe} {...props} ref={globeRef} />
+  return <primitive object={globe} {...props} ref={globeRef} />;
 }
 
 
-
-export function Box1(props) {
-  const meshRef = useRef()
-  
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.01
-      meshRef.current.rotation.x += 0.005
-    }
-  })
-
-  return (
-    <mesh
-      {...props}
-      ref={meshRef}
-      rotation={[0, Math.PI / 4, Math.PI / 8]}
-      position={[0, 0, 0.5]}
-    >
-      <boxGeometry args={[1.7, 1.7, 1.7]} />
-      <meshNormalMaterial />
-    </mesh>
-  )
-}
 export function Box2(props) {
   const meshRef = useRef()
+  const dpr = window.devicePixelRatio;
+  const [mouse, setMouse] = useState({ x: 0, y: 0 })
   const materialRef = useRef()
 
-  useFrame(({ clock }) => {
+
+  const uniforms = useMemo(() => ({
+    iTime: { value: 0.0 },
+    iTimeDelta: { value: 0.0 },
+    iResolution: { value: new THREE.Vector2(1, 1) },
+    iMouse: { value: new THREE.Vector3(0, 0, 1) },
+    iSampleRate: { value: 44100.0 },
+    iDate: { value: new THREE.Vector4(0, 0, 0, 0) },
+  }), [])
+
+  useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.01
       meshRef.current.rotation.x += 0.005
     }
+    if (materialRef.current) {
+      const { uniforms } = materialRef.current;
+      const { elapsedTime } = state.clock;
+
+      uniforms.iTime.value = elapsedTime / 2;
+      uniforms.iTimeDelta.value = elapsedTime - uniforms.iTime.value;
+      uniforms.iResolution.value.set(
+        window.innerWidth * dpr,
+        window.innerHeight * dpr,
+        1
+      );
+      uniforms.iMouse.value.set(mouse.x, mouse.y, 1);
+    }
     if (!materialRef.current) return
-    materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
   })
 
 
@@ -189,14 +157,12 @@ export function Box2(props) {
       >
         <CustomShaderMaterial
           ref={materialRef}
-          baseMaterial={THREE.MeshStandardMaterial}
+          baseMaterial={THREE.MeshBasicMaterial}
           vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-          uniforms={{
-            uTime: { value: 0 },
-          }}
+          fragmentShader={fragmentShader2}
+          uniforms={uniforms}
         />
-        <boxGeometry args={[1.5, 1.5, 1.5]} />
+        <boxGeometry args={[1.7, 1.7, 1.7]} />
       </mesh>
 
   )
@@ -204,14 +170,44 @@ export function Box2(props) {
 
 
 export function TorusKnot(props) {
-  const meshRef = useRef()
   
-  useFrame(() => {
+  const meshRef = useRef()
+  const dpr = window.devicePixelRatio;
+  const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const materialRef = useRef()
+
+  const uniforms = useMemo(() => ({
+    iTime: { value: 0.0 },
+    iTimeDelta: { value: 0.0 },
+    iResolution: { value: new THREE.Vector2(1, 1) },
+    iMouse: { value: new THREE.Vector3(0, 0, 1) },
+    iSampleRate: { value: 44100.0 },
+    iDate: { value: new THREE.Vector4(0, 0, 0, 0) },
+    waveFrequency: { value: 9.0 },
+    waveAmplitude: { value: 1.0 },
+  }), [])
+
+  useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.01
       meshRef.current.rotation.x += 0.005
     }
+    if (materialRef.current) {
+      const { uniforms } = materialRef.current;
+      const { elapsedTime } = state.clock;
+
+      uniforms.iTime.value = elapsedTime / 4;
+      uniforms.iTimeDelta.value = elapsedTime - uniforms.iTime.value;
+      uniforms.iResolution.value.set(
+        window.innerWidth * 30,
+        window.innerHeight * 30,
+        1
+      );
+      uniforms.iMouse.value.set(mouse.x, mouse.y, 1);
+    }
+    if (!materialRef.current) return
   })
+
 
   return (
     <mesh
@@ -221,7 +217,13 @@ export function TorusKnot(props) {
       position={[0, 0, 0.5]}
     >
       <torusKnotGeometry args={[1, 0.4, 90, 20]} />
-      <meshNormalMaterial />
+      <CustomShaderMaterial
+          ref={materialRef}
+          baseMaterial={THREE.MeshBasicMaterial}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={uniforms}
+        />
     </mesh>
   )
 }

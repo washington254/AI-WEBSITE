@@ -15,11 +15,8 @@ import { Footer } from '@/components/Footer'
 
 
 
-const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
-const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
-const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
+
 const Globe = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Globe), { ssr: false })
-const Box1 = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Box1), { ssr: false })
 const TorusKnot = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.TorusKnot), { ssr: false })
 const Box2 = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Box2), { ssr: false })
 
